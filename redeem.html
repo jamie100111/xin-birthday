@@ -87,6 +87,14 @@ main{position:relative;z-index:2;max-width:480px;margin:0 auto;padding:72px 16px
 
 .flake{position:absolute;top:-80px;background:url(aa.png) center/contain no-repeat;animation:fall linear forwards;filter:drop-shadow(0 3px 4px rgba(74,42,23,.25))}
 @keyframes fall{to{transform:translate3d(var(--dx),110vh,0) rotate(var(--rot))}}
+.popper{position:fixed;bottom:-10px;width:48px;height:64px;z-index:46;pointer-events:none;transform-origin:50% 100%}
+.popper svg{width:100%;height:100%;display:block;filter:drop-shadow(0 3px 0 rgba(74,42,23,.3))}
+.popper[data-side="l"]{left:6px;transform:rotate(38deg)}
+.popper[data-side="r"]{right:6px;transform:rotate(-38deg)}
+.popper.bang[data-side="l"]{animation:bangL .45s ease-out}
+.popper.bang[data-side="r"]{animation:bangR .45s ease-out}
+@keyframes bangL{0%{transform:rotate(38deg) scale(1)}25%{transform:rotate(30deg) scale(.86,1.1)}100%{transform:rotate(38deg) scale(1)}}
+@keyframes bangR{0%{transform:rotate(-38deg) scale(1)}25%{transform:rotate(-30deg) scale(.86,1.1)}100%{transform:rotate(-38deg) scale(1)}}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}.stamp{opacity:.85;transform:rotate(-16deg)}}
 </style>
 </head>
@@ -128,56 +136,74 @@ main{position:relative;z-index:2;max-width:480px;margin:0 auto;padding:72px 16px
     <img class="bobo" src="aa.png" alt="Bobo">
   </div>
 </main>
+<div class="popper" data-side="l"><svg viewBox="0 0 60 80" aria-hidden="true"><defs><clipPath id="coneL"><path d="M30 78 L4 14 Q30 4 56 14 Z"/></clipPath></defs><path d="M30 78 L4 14 Q30 4 56 14 Z" fill="#ffd34d" stroke="#4a2a17" stroke-width="3" stroke-linejoin="round"/><g clip-path="url(#coneL)" stroke="#c8312f" stroke-width="7"><path d="M0 30 L60 22"/><path d="M0 48 L60 40"/><path d="M0 66 L60 58"/></g><path d="M30 78 L4 14 Q30 4 56 14 Z" fill="none" stroke="#4a2a17" stroke-width="3" stroke-linejoin="round"/><ellipse cx="30" cy="13" rx="26" ry="6.5" fill="#7a3b1c" stroke="#4a2a17" stroke-width="3"/></svg></div>
+<div class="popper" data-side="r"><svg viewBox="0 0 60 80" aria-hidden="true"><defs><clipPath id="coneR"><path d="M30 78 L4 14 Q30 4 56 14 Z"/></clipPath></defs><path d="M30 78 L4 14 Q30 4 56 14 Z" fill="#ffd34d" stroke="#4a2a17" stroke-width="3" stroke-linejoin="round"/><g clip-path="url(#coneR)" stroke="#c8312f" stroke-width="7"><path d="M0 30 L60 22"/><path d="M0 48 L60 40"/><path d="M0 66 L60 58"/></g><path d="M30 78 L4 14 Q30 4 56 14 Z" fill="none" stroke="#4a2a17" stroke-width="3" stroke-linejoin="round"/><ellipse cx="30" cy="13" rx="26" ry="6.5" fill="#7a3b1c" stroke="#4a2a17" stroke-width="3"/></svg></div>
 
 <script>
-/* party-popper confetti: paper bits + curly streamers, no external library */
+/* party-popper confetti: paper bits, foil, long curly streamers - no external library */
 window.confetti=(()=>{
   const cv=document.createElement('canvas');
   cv.setAttribute('aria-hidden','true');
   cv.style.cssText='position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:45';
   document.body.appendChild(cv);
   const ctx=cv.getContext('2d');
-  const COL=['#ff5a5f','#ffb400','#3ec1d3','#7bd389','#a974ff','#ff8fab','#ffd93d','#4d96ff','#ffffff'];
+  const COL=['#ff4d6d','#ffb400','#29c5d6','#5ccf7a','#9d6bff','#ff8fab','#ffd93d','#3d8bff','#ff7a2f'];
+  const FOIL=[['#f7d774','#b8860b'],['#f2f2f2','#9aa4b2'],['#ffb3c7','#d6336c']];
   const R=(a,b)=>a+Math.random()*(b-a);
   let W=0,H=0,P=[],raf=0,rate=0,acc=0;
   const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   function fit(){const D=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=Math.round(W*D);cv.height=Math.round(H*D);ctx.setTransform(D,0,0,D,0,0);}
   fit(); addEventListener('resize',fit);
-  function piece(x,y,vx,vy){
-    const t=Math.random();
-    return {x,y,vx,vy,k:t<.55?0:t<.78?1:2,w:R(6,11),h:R(3.5,6.5),c:COL[Math.random()*COL.length|0],
-      rot:R(0,6.28),vr:R(-.2,.2),tilt:R(0,6.28),vt:R(.06,.16),sway:R(.4,1.3),age:0,len:R(18,32)};
+  // k: 0 paper rect, 1 dot, 2 long curly streamer, 3 foil square
+  function piece(x,y,vx,vy,streamerBias){
+    const t=Math.random(), sb=streamerBias||.22;
+    const k=t<sb?2:t<sb+.14?3:t<sb+.26?1:0;
+    const f=FOIL[Math.random()*FOIL.length|0];
+    return {x,y,vx,vy,k,w:R(7,12),h:R(4,7),c:COL[Math.random()*COL.length|0],f,
+      rot:R(0,6.28),vr:R(-.18,.18),tilt:R(0,6.28),vt:R(.06,.17),sway:R(.4,1.4),age:0,
+      len:k===2?R(38,78):0,amp:R(4,7),freq:R(.18,.3),lw:R(2.6,3.6)};
   }
   function loop(){
     ctx.clearRect(0,0,W,H);
-    if(rate){acc+=rate;while(acc>=1){acc--;P.push(piece(R(-10,W+10),-20,R(-.6,.6),R(.8,2)));}}
+    if(rate){acc+=rate;while(acc>=1){acc--;P.push(piece(R(-10,W+10),-30,R(-.6,.6),R(.8,1.8),.18));}}
     for(const p of P){
-      p.age++; p.vx*=.982; p.vy=p.vy*.982+.11; if(p.vy>2.6)p.vy=2.6;
-      p.x+=p.vx+Math.sin(p.age*.05)*p.sway*.5; p.y+=p.vy; p.rot+=p.vr; p.tilt+=p.vt;
-      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c; ctx.strokeStyle=p.c;
-      if(p.k===0){ctx.scale(1,Math.cos(p.tilt)); ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);}
-      else if(p.k===1){ctx.scale(Math.cos(p.tilt),1); ctx.beginPath(); ctx.arc(0,0,p.h*.75,0,6.283); ctx.fill();}
-      else{ctx.lineWidth=2.6; ctx.lineCap='round'; ctx.beginPath();
-        for(let i=0;i<=p.len;i+=2){const yy=i-p.len/2, xx=Math.sin(i*.32+p.tilt)*4.5; i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy);} ctx.stroke();}
+      p.age++; p.vx*=.982; p.vy=p.vy*.982+.11;
+      const cap=p.k===2?1.9:2.6; if(p.vy>cap)p.vy=cap;
+      p.x+=p.vx+Math.sin(p.age*.05)*p.sway*.5; p.y+=p.vy; p.rot+=p.vr*(p.k===2?.35:1); p.tilt+=p.vt;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+      if(p.k===0){ctx.fillStyle=p.c; ctx.scale(1,Math.cos(p.tilt)); ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);}
+      else if(p.k===1){ctx.fillStyle=p.c; ctx.scale(Math.cos(p.tilt),1); ctx.beginPath(); ctx.arc(0,0,p.h*.75,0,6.283); ctx.fill();}
+      else if(p.k===3){const s=Math.cos(p.tilt); ctx.fillStyle=s>0?p.f[0]:p.f[1]; ctx.scale(1,s); ctx.fillRect(-p.w*.45,-p.w*.45,p.w*.9,p.w*.9);}
+      else{ctx.strokeStyle=p.c; ctx.lineWidth=p.lw; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.beginPath();
+        for(let i=0;i<=p.len;i+=2){const yy=i-p.len/2, xx=Math.sin(i*p.freq+p.tilt*1.4)*p.amp; i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy);} ctx.stroke();}
       ctx.restore();
     }
-    P=P.filter(p=>p.y<H+50&&p.x>-80&&p.x<W+80);
+    P=P.filter(p=>p.y<H+90&&p.x>-120&&p.x<W+120);
     raf=(P.length||rate)?requestAnimationFrame(loop):0;
   }
   function kick(){ if(!raf) raf=requestAnimationFrame(loop); }
   function fire(o={}){
     if(reduce) return;
     const n=o.particleCount||100, sp=(o.spread||60)*Math.PI/180, ang=-(o.angle==null?90:o.angle)*Math.PI/180;
-    const ox=(o.origin&&o.origin.x!=null?o.origin.x:.5)*W, oy=(o.origin&&o.origin.y!=null?o.origin.y:.5)*H;
+    const ox=o.px!=null?o.px:(o.origin&&o.origin.x!=null?o.origin.x:.5)*W, oy=o.py!=null?o.py:(o.origin&&o.origin.y!=null?o.origin.y:.5)*H;
     const v=o.startVelocity||Math.sqrt(H)*.42;
-    for(let i=0;i<n;i++){const a=ang+R(-sp/2,sp/2), s=v*R(.5,1.15); P.push(piece(ox,oy,Math.cos(a)*s,Math.sin(a)*s));}
-    if(P.length>650) P.splice(0,P.length-650);
+    for(let i=0;i<n;i++){const a=ang+R(-sp/2,sp/2), s=v*R(.45,1.15); P.push(piece(ox,oy,Math.cos(a)*s,Math.sin(a)*s,o.streamers));}
+    if(P.length>800) P.splice(0,P.length-800);
     kick();
   }
-  /* two party poppers firing from the bottom corners */
-  fire.popper=()=>{const v=Math.sqrt(H)*.62;
-    fire({particleCount:80,angle:68,spread:40,origin:{x:0,y:1},startVelocity:v});
-    fire({particleCount:80,angle:112,spread:40,origin:{x:1,y:1},startVelocity:v});};
+  /* party poppers from the bottom corners; uses .popper elements as mouths when present */
+  fire.popper=(side)=>{
+    const v=Math.sqrt(H)*.68;
+    const mouths=[...document.querySelectorAll('.popper')];
+    const sides=side?[side]:['l','r'];
+    sides.forEach(sd=>{
+      const el=mouths.find(m=>m.dataset.side===sd);
+      let px=sd==='l'?0:W, py=H;
+      if(el){const r=el.getBoundingClientRect(); px=sd==='l'?r.right-6:r.left+6; py=r.top+6;
+        el.classList.remove('bang'); void el.offsetWidth; el.classList.add('bang');}
+      fire({particleCount:95,angle:sd==='l'?66:114,spread:38,px,py,startVelocity:v,streamers:.3});
+    });
+  };
   /* continuous gentle fall: pieces per frame */
   fire.rain=r=>{ if(reduce) return; rate=r; kick(); };
   return fire;
@@ -207,7 +233,9 @@ setTimeout(()=>{
 },1300);
 
 setTimeout(()=>confetti.popper(),350);
-confetti.rain(0.35);
+confetti.rain(0.55);
+// pop again every few seconds, alternating sides
+let side=0; setInterval(()=>{ if(document.hidden) return; confetti.popper(side++%3===2?undefined:(side%2?'l':'r')); }, 3800);
 // keep a video loop playing on phones that block autoplay
 const vid=document.querySelector('video'); if(vid){const p=vid.play(); if(p&&p.catch) p.catch(()=>{}); addEventListener('touchstart',()=>vid.play().catch(()=>{}),{once:true});}
 })();
