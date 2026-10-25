@@ -86,15 +86,15 @@ h1{font-size:26px;line-height:1.35;margin:10px 0 12px;letter-spacing:.5px}
 .toast img{width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:center 40%;border:2px solid #fff;flex:none}
 
 /* ---------- stage 2 ---------- */
-.overlay{position:fixed;inset:0;background:rgba(20,49,95,.55);backdrop-filter:blur(3px);z-index:20;display:none;align-items:center;justify-content:center;padding:16px}
+.overlay{position:fixed;inset:0;background:rgba(20,49,95,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);z-index:20;display:none;padding:56px 16px 28px;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .overlay.active{display:flex}
-.pop{width:100%;max-width:440px;max-height:calc(100dvh - 32px);overflow:auto;animation:pop .7s cubic-bezier(.2,1.4,.4,1) both}
+.pop{width:100%;max-width:440px;margin:auto;animation:pop .7s cubic-bezier(.2,1.4,.4,1) both}
 @keyframes pop{0%{opacity:0;transform:scale(.4) rotate(-8deg)}100%{opacity:1;transform:none}}
 .pop{overflow:visible}
 .pop-hero{height:170px;background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.35) 0 4px,transparent 5px) 0 0/46px 46px,linear-gradient(#f6dca8,#e9c48a);border-bottom:3px solid var(--cocoa);position:relative;border-radius:23px 23px 0 0}
 .pop-hero img{position:absolute;left:50%;bottom:6px;height:205px;transform:translateX(-50%);animation:bob 2.6s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px) rotate(-1.5deg)}}
-.overlay .pop{margin-top:40px}
+
 .ribbon{z-index:2;position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);background:var(--red);color:#fff;font-family:var(--font-en);font-weight:700;font-size:15px;letter-spacing:1px;padding:8px 22px;white-space:nowrap;border:3px solid var(--cocoa);border-radius:12px;box-shadow:0 4px 0 var(--cocoa)}
 .pop h2{font-family:var(--font-en);font-size:23px;text-align:center;margin:30px 0 14px;color:var(--quokka-d)}
 .wish p{line-height:1.9;font-size:15.5px;margin-bottom:10px}
@@ -127,9 +127,9 @@ h1{font-size:26px;line-height:1.35;margin:10px 0 12px;letter-spacing:.5px}
 .legend-title::before,.legend-title::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--sand) 0 6px,transparent 6px 10px)}
 
 .lotto{margin:0 -8px;background:linear-gradient(135deg,var(--red),#a92623);border:3px solid var(--cocoa);border-radius:18px;padding:8px 8px 10px;box-shadow:0 6px 0 var(--cocoa)}
-.lotto-top{display:flex;justify-content:space-between;align-items:center;color:#fff;font-family:var(--font-en);font-weight:700;font-size:12px;letter-spacing:1px;padding:0 4px 7px}
+.lotto-top{display:flex;justify-content:space-between;align-items:center;gap:6px;white-space:nowrap;color:#fff;font-family:var(--font-en);font-weight:700;font-size:12px;letter-spacing:1px;padding:0 4px 7px}
 .lotto-top .pill{background:var(--gold);color:var(--cocoa);border-radius:999px;padding:2px 9px;font-size:11px}
-.lotto-bottom{display:flex;justify-content:space-between;color:#ffe9c4;font-family:var(--font-en);font-size:10.5px;letter-spacing:1px;padding:7px 4px 0}
+.lotto-bottom{display:flex;justify-content:space-between;gap:6px;white-space:nowrap;color:#ffe9c4;font-family:var(--font-en);font-size:10.5px;letter-spacing:1px;padding:7px 4px 0}
 .scratch{position:relative;border-radius:10px;border:2px dashed rgba(255,255,255,.85);outline:3px solid #fff;overflow:hidden;aspect-ratio:3/2;background:#fffaf0}
 .scratch .under{position:absolute;inset:0;background:url(bb.jpg) center/cover;opacity:.16}
 .field{position:absolute;inset:0}
@@ -186,6 +186,7 @@ h1{font-size:26px;line-height:1.35;margin:10px 0 12px;letter-spacing:.5px}
 .flake{position:absolute;top:-80px;background:url(aa.png) center/contain no-repeat;will-change:transform;animation:fall linear forwards;filter:drop-shadow(0 3px 4px rgba(74,42,23,.25))}
 @keyframes fall{0%{transform:translate3d(0,0,0) rotate(0)}100%{transform:translate3d(var(--dx),110vh,0) rotate(var(--rot))}}
 
+@media (max-width:360px){.lotto-top{font-size:10px;letter-spacing:.5px}.lotto-top .pill{font-size:9.5px;padding:2px 7px}.lotto-bottom{font-size:9px;letter-spacing:.3px}.t-top .en{font-size:14.5px}}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
 </style>
 </head>
@@ -305,7 +306,7 @@ h1{font-size:26px;line-height:1.35;margin:10px 0 12px;letter-spacing:.5px}
     <button class="btn btn-primary" id="saveBtn">📸 截圖留存 / 複製好消息</button>
     <button class="btn btn-ghost" id="againBtn">🔁 再玩一次（回味一下）</button>
   </div>
-  <div class="mascots"><video src="9.mp4" autoplay muted loop playsinline aria-label="Quokka 們拉著彩帶一起慶祝"></video></div>
+  <div class="mascots"><video src="9.mp4" poster="9p.jpg" autoplay muted loop playsinline preload="auto" aria-label="Quokka 們拉著彩帶一起慶祝"></video></div>
 </section>
 </main>
 
@@ -328,7 +329,60 @@ h1{font-size:26px;line-height:1.35;margin:10px 0 12px;letter-spacing:.5px}
 <div class="toast" id="toast" role="status"><img src="6.jpg" alt=""><span id="toastText"></span></div>
 <div class="snow" id="snow" aria-hidden="true"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.3/confetti.browser.min.js"></script>
+<script>
+/* party-popper confetti: paper bits + curly streamers, no external library */
+window.confetti=(()=>{
+  const cv=document.createElement('canvas');
+  cv.setAttribute('aria-hidden','true');
+  cv.style.cssText='position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:45';
+  document.body.appendChild(cv);
+  const ctx=cv.getContext('2d');
+  const COL=['#ff5a5f','#ffb400','#3ec1d3','#7bd389','#a974ff','#ff8fab','#ffd93d','#4d96ff','#ffffff'];
+  const R=(a,b)=>a+Math.random()*(b-a);
+  let W=0,H=0,P=[],raf=0,rate=0,acc=0;
+  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function fit(){const D=Math.min(window.devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=Math.round(W*D);cv.height=Math.round(H*D);ctx.setTransform(D,0,0,D,0,0);}
+  fit(); addEventListener('resize',fit);
+  function piece(x,y,vx,vy){
+    const t=Math.random();
+    return {x,y,vx,vy,k:t<.55?0:t<.78?1:2,w:R(6,11),h:R(3.5,6.5),c:COL[Math.random()*COL.length|0],
+      rot:R(0,6.28),vr:R(-.2,.2),tilt:R(0,6.28),vt:R(.06,.16),sway:R(.4,1.3),age:0,len:R(18,32)};
+  }
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    if(rate){acc+=rate;while(acc>=1){acc--;P.push(piece(R(-10,W+10),-20,R(-.6,.6),R(.8,2)));}}
+    for(const p of P){
+      p.age++; p.vx*=.982; p.vy=p.vy*.982+.11; if(p.vy>2.6)p.vy=2.6;
+      p.x+=p.vx+Math.sin(p.age*.05)*p.sway*.5; p.y+=p.vy; p.rot+=p.vr; p.tilt+=p.vt;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.c; ctx.strokeStyle=p.c;
+      if(p.k===0){ctx.scale(1,Math.cos(p.tilt)); ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);}
+      else if(p.k===1){ctx.scale(Math.cos(p.tilt),1); ctx.beginPath(); ctx.arc(0,0,p.h*.75,0,6.283); ctx.fill();}
+      else{ctx.lineWidth=2.6; ctx.lineCap='round'; ctx.beginPath();
+        for(let i=0;i<=p.len;i+=2){const yy=i-p.len/2, xx=Math.sin(i*.32+p.tilt)*4.5; i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy);} ctx.stroke();}
+      ctx.restore();
+    }
+    P=P.filter(p=>p.y<H+50&&p.x>-80&&p.x<W+80);
+    raf=(P.length||rate)?requestAnimationFrame(loop):0;
+  }
+  function kick(){ if(!raf) raf=requestAnimationFrame(loop); }
+  function fire(o={}){
+    if(reduce) return;
+    const n=o.particleCount||100, sp=(o.spread||60)*Math.PI/180, ang=-(o.angle==null?90:o.angle)*Math.PI/180;
+    const ox=(o.origin&&o.origin.x!=null?o.origin.x:.5)*W, oy=(o.origin&&o.origin.y!=null?o.origin.y:.5)*H;
+    const v=o.startVelocity||Math.sqrt(H)*.42;
+    for(let i=0;i<n;i++){const a=ang+R(-sp/2,sp/2), s=v*R(.5,1.15); P.push(piece(ox,oy,Math.cos(a)*s,Math.sin(a)*s));}
+    if(P.length>650) P.splice(0,P.length-650);
+    kick();
+  }
+  /* two party poppers firing from the bottom corners */
+  fire.popper=()=>{const v=Math.sqrt(H)*.62;
+    fire({particleCount:80,angle:68,spread:40,origin:{x:0,y:1},startVelocity:v});
+    fire({particleCount:80,angle:112,spread:40,origin:{x:1,y:1},startVelocity:v});};
+  /* continuous gentle fall: pieces per frame */
+  fire.rain=r=>{ if(reduce) return; rate=r; kick(); };
+  return fire;
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 <script>
 (() => {
@@ -480,7 +534,7 @@ function win(){
   burst({particleCount:160, spread:110, origin:{y:.55}});
   setTimeout(()=>burst({particleCount:90, angle:60, spread:70, origin:{x:0,y:.7}}), 250);
   setTimeout(()=>burst({particleCount:90, angle:120, spread:70, origin:{x:1,y:.7}}), 400);
-  setTimeout(()=>{ show('s4'); snow(9000); }, 2600);
+  setTimeout(()=>{ show('s4'); snow(9000); setTimeout(()=>confetti.popper(),300); const v=document.querySelector('#s4 video'); if(v) v.play().catch(()=>{}); }, 2600);
 }
 
 /* ---------- stage 4 ---------- */
