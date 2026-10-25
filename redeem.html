@@ -34,7 +34,7 @@ main{position:relative;z-index:2;max-width:480px;margin:0 auto;padding:72px 16px
 .head h1{font-size:clamp(18px,5.4vw,24px);white-space:nowrap;line-height:1.4;margin:14px 0 6px;text-shadow:0 3px 0 var(--cocoa)}
 .head p{font-size:15.5px;opacity:.95;text-shadow:0 2px 0 rgba(74,42,23,.5)}
 
-.film{border-radius:22px;border:3px solid var(--cocoa);overflow:hidden;box-shadow:0 6px 0 var(--cocoa);background:#fbf1dc;aspect-ratio:16/9;margin-bottom:22px}
+.film{border-radius:50% 50% 28px 28px/38% 38% 28px 28px;overflow:hidden;background:#fbf1dc;aspect-ratio:16/9;margin-bottom:22px;box-shadow:0 0 0 6px rgba(255,250,240,.35),0 0 0 12px rgba(255,250,240,.15)}
 .film video{width:100%;height:100%;object-fit:cover;display:block}
 
 .cert{position:relative;background:var(--paper);border-radius:20px;border:3px solid var(--cocoa);box-shadow:var(--shadow);padding:12px;animation:enter .8s cubic-bezier(.2,1.3,.4,1) both .2s}
@@ -49,6 +49,7 @@ main{position:relative;z-index:2;max-width:480px;margin:0 auto;padding:72px 16px
 .corner.tr{top:6px;right:6px;border-left:0;border-bottom:0;border-radius:0 8px 0 0}
 .corner.bl{bottom:6px;left:6px;border-right:0;border-top:0;border-radius:0 0 0 8px}
 .corner.br{bottom:6px;right:6px;border-left:0;border-top:0;border-radius:0 0 8px 0}
+.c-star{position:absolute;top:-26px;left:50%;width:52px;transform:translateX(-50%)}
 .c-title{text-align:center;font-family:var(--font-en);font-weight:700;color:var(--quokka-d);font-size:18px;letter-spacing:1px;line-height:1.35}
 .c-sub{text-align:center;font-size:13px;color:var(--muted);margin-top:4px;letter-spacing:2px}
 .rule{display:flex;align-items:center;gap:10px;margin:14px 0 6px;color:var(--gold-d)}
@@ -77,8 +78,11 @@ main{position:relative;z-index:2;max-width:480px;margin:0 auto;padding:72px 16px
 @keyframes thud{0%,100%{transform:none}40%{transform:translateY(4px) scale(.99)}}
 
 .note{margin:22px 4px 0;text-align:center;color:#fff;font-size:15px;line-height:1.8;text-shadow:0 2px 0 rgba(74,42,23,.5)}
-.strip{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
-.strip img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:18px;border:3px solid var(--cocoa);box-shadow:0 5px 0 var(--cocoa)}
+.strip{display:flex;justify-content:center;align-items:flex-end;gap:4px;margin-top:14px}
+.strip img{height:150px;width:auto;filter:drop-shadow(0 6px 0 rgba(74,42,23,.25))}
+.strip img:first-child{animation:bob 2.8s ease-in-out infinite}
+.strip img:last-child{animation:bob 2.8s ease-in-out -1.4s infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
 .snow{position:fixed;inset:0;pointer-events:none;z-index:40;overflow:hidden}
 .flake{position:absolute;top:-80px;background:url(aa.png) center/contain no-repeat;animation:fall linear forwards;filter:drop-shadow(0 3px 4px rgba(74,42,23,.25))}
@@ -99,7 +103,7 @@ main{position:relative;z-index:2;max-width:480px;margin:0 auto;padding:72px 16px
 
   <section class="cert" id="cert">
     <div class="frame">
-      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <img class="c-star" src="star.png" alt=""><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
       <div class="c-title">🐻 QUOKKA &amp; BOBO<br>SPECIAL CERTIFICATE</div>
       <div class="c-sub">專屬特權兌換證書</div>
       <div class="rule">✦</div>
@@ -111,7 +115,7 @@ main{position:relative;z-index:2;max-width:480px;margin:0 auto;padding:72px 16px
         <div class="row"><dt>【專屬認證號】：</dt><dd class="code">XIN-BDAY-FOREVER-HAPPY</dd></div>
       </dl>
       <div class="sign">
-        <div class="sig"><img src="2.jpg" alt="" style="object-position:78% 45%"><div><b>Quokka</b>簽發</div></div>
+        <div class="sig"><img src="c4.png" alt="" style="object-fit:cover;object-position:62% 8%"><div><b>Quokka</b>簽發</div></div>
         <div class="sig"><img src="aa.png" alt="" style="object-fit:contain;padding:3px"><div><b>Bobo</b>見證</div></div>
       </div>
     </div>
@@ -120,8 +124,8 @@ main{position:relative;z-index:2;max-width:480px;margin:0 auto;padding:72px 16px
 
   <p class="note">憑此證書向發行人領取專屬神秘禮物 🎁<br>生日快樂，Xin！</p>
   <div class="strip">
-    <img src="1.jpg" alt="Quokka 烤棉花糖給 Bobo" style="object-position:center 45%">
-    <img src="4.jpg" alt="Quokka 和 Bobo 在星空下" style="object-position:center 55%">
+    <img src="c1.png" alt="Quokka 烤棉花糖給 Bobo">
+    <img src="c2.png" alt="Quokka 和 Bobo">
   </div>
 </main>
 <div class="snow" id="snow" aria-hidden="true"></div>
